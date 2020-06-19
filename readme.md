@@ -9,6 +9,10 @@ To build the image
 ```
 sudo docker build -t scuervo91/database_oil_gas:0.1 .
 ```
+```
+sudo docker -t build database_oil_gas .
+```
+
 
 ## Pull image from DockerHub
 
@@ -16,6 +20,9 @@ sudo docker build -t scuervo91/database_oil_gas:0.1 .
 ## Run the image
 
 ```
-sudo docker run -v /host/path/to/directory:/var/lib/postgresql/data -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres POSTGRES_DB=geodb -p 5432:5432 --name database scuervo91/database_oil_gas 
+sudo docker run -v /host/path/to/directory:/var/lib/postgresql/data -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=geodb -p 5432:5432 --name database scuervo91/database_oil_gas 
+```
+
+```sudo docker run --rm -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=geodb -p 5432:5432 --name database database_oil_gas
 ```
 

@@ -7,7 +7,7 @@ CREATE TABLE basins (
     basin text,
     symbol varchar(3),
     polygon geometry
-)
+);
 
 -- Blocks table
 CREATE TABLE blocks (
@@ -15,7 +15,7 @@ CREATE TABLE blocks (
     block text,
     basin_id integer references basins(id),
     polygon geometry
-)
+);
 
 -- Fields table
 CREATE TABLE fields (
@@ -23,20 +23,20 @@ CREATE TABLE fields (
     field text,
     block_id integer references blocks(id),
     polygon geometry
-)
+);
 
 -- Stations table
 CREATE TABLE stations (
     id integer PRIMARY KEY,
     station text,
     point geometry
-)
+);
 
 -- Als table
 CREATE TABLE als (
     id integer PRIMARY KEY,
     als text
-)
+);
 
 -- Wells table
 CREATE TABLE wells (
@@ -58,12 +58,12 @@ CREATE TABLE wells (
     geom text,
     parent_id integer references wells(id),
     point geometry
-)
+);
 
 --Surveys Table
 CREATE TABLE surveys (
     id bigint PRIMARY KEY,
-    well_id integer references well(id),
+    well_id integer references wells(id),
     md numeric,
     inc numeric,
     azi numeric,
@@ -75,12 +75,12 @@ CREATE TABLE surveys (
     easting numeric,
     dleg numeric,
     point geometry
-)
+);
 
 -- Well status Table
 CREATE TABLE wells_status (
     id bigint PRIMARY KEY,
-    well_id integer references well(id),
+    well_id integer references wells(id),
     start_date date,
     end_date date,
     status text,
@@ -88,7 +88,7 @@ CREATE TABLE wells_status (
     als_id integer references als(id),
     work_int numeric,
     comment text
-)
+);
 
 --FORMATIONS
 
@@ -98,7 +98,7 @@ CREATE TABLE formations (
     formation text,
     period text,
     basin_id integer references basins(id)
-)
+);
 
 -- formations tops
 CREATE TABLE formations_tops (
@@ -114,14 +114,14 @@ CREATE TABLE formations_tops (
     northing numeric,
     easting numeric,
     point geometry
-)
+);
 
 --Units table
 CREATE TABLE units (
     id integer PRIMARY KEY,
     unit text,
     formation_id integer references formations(id)
-)
+);
 
 -- Units tops
 CREATE TABLE units_tops (
@@ -137,7 +137,7 @@ CREATE TABLE units_tops (
     northing numeric,
     easting numeric,
     point geometry
-)
+);
 
 -- Perforations Table
 CREATE TABLE perforations (
@@ -154,7 +154,7 @@ CREATE TABLE perforations (
     perf_date date,
     spf numeric,
     comments text
-)
+);
 
 -- Perforations Status Table
 CREATE TABLE perforations_status (
@@ -164,7 +164,7 @@ CREATE TABLE perforations_status (
     end_date date,
     status text,
     type text
-)
+);
 
 -- Forecast table
 CREATE TABLE forecast (
@@ -176,7 +176,7 @@ CREATE TABLE forecast (
     bw numeric,
     gas numeric,
     probability numeric
-)
+);
 
 --PRODUCCTION AND INJECTION TABLES
 
@@ -189,7 +189,7 @@ CREATE TABLE injection (
     thp numeric,
     hrs numeric,
     formation_id integer references formations(id)
-)
+);
 
 --Production table
 CREATE TABLE production (
@@ -204,7 +204,7 @@ CREATE TABLE production (
     bo numeric,
     bw numeric,
     als_id integer references als(id),
-    api numeric
+    api numeric,
     choke numeric,
     thp numeric,
     chp numeric,
@@ -222,4 +222,4 @@ CREATE TABLE production (
     pcp_amp numeric,
     pcp_torque numeric,
     comments text
-)
+);
