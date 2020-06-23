@@ -1,8 +1,14 @@
 -- Init tables for Oil and Gas DataBase
 -- 
 
+--Create schemas to differentiate tables that updates daily
+
+CREATE SCHEMA inventory;
+CREATE SCHEMA daily;
+CREATE SCHEMA events;
+
 -- Basins table
-CREATE TABLE basins (
+CREATE TABLE inventory.basins (
     id integer PRIMARY KEY,
     basin text NOT NULL,
     symbol varchar(3) NOT NULL,
@@ -10,41 +16,41 @@ CREATE TABLE basins (
 );
 
 -- Blocks table
-CREATE TABLE blocks (
+CREATE TABLE inventory.blocks (
     id integer PRIMARY KEY,
     block text NOT NULL,
-    basin_id integer references basins(id) NOT NULL,
+    basin_id integer references inventory.basins(id) NOT NULL,
     polygon geometry
 );
 
 -- Fields table
-CREATE TABLE fields (
+CREATE TABLE inventory.fields (
     id integer PRIMARY KEY,
     field text NOT NULL,
-    block_id integer references blocks(id) NOT NULL,
+    block_id integer references inventory.blocks(id) NOT NULL,
     polygon geometry
 );
 
 -- Stations table
-CREATE TABLE stations (
+CREATE TABLE inventory.stations (
     id integer PRIMARY KEY,
     station text NOT NULL,
     point geometry
 );
 
 -- Als table
-CREATE TABLE als (
+CREATE TABLE inventory.als (
     id integer PRIMARY KEY,
     als text NOT NULL
 );
 
 -- Wells table
-CREATE TABLE wells (
+CREATE TABLE inventory.wells (
     id integer PRIMARY KEY,
     uwi varchar(10) NOT NULL,
     well text NOT NULL,
     symbol varchar(10) NOT NULL,
-    field_id integer references fields(id),
+    field_id integer references inventory.fields(id),
     spud_date date,
     completion_date date,
     surface_x numeric CHECK (surface_x >= 0),
@@ -56,14 +62,14 @@ CREATE TABLE wells (
     td_tvd numeric CHECK (td_tvd >= 0),
     classification varchar(2),
     geom text,
-    parent_id integer references wells(id),
+    parent_id integer references inventory.wells(id),
     point geometry
 );
 
 --Surveys Table
-CREATE TABLE surveys (
+CREATE TABLE inventory.surveys (
     id bigint PRIMARY KEY,
-    well_id integer references wells(id) NOT NULL,
+    well_id integer references inventory.wells(id) NOT NULL,
     md numeric NOT NULL CHECK (md >= 0),
     inc numeric NOT NULL CHECK (inc >= 0),
     azi numeric NOT NULL CHECK (azi >= 0 AND azi <= 360),
@@ -78,14 +84,14 @@ CREATE TABLE surveys (
 );
 
 -- Well status Table
-CREATE TABLE wells_status (
+CREATE TABLE events.wells_status (
     id bigint PRIMARY KEY,
-    well_id integer NOT NULL references wells(id),
+    well_id integer NOT NULL references inventory.wells(id),
     start_date date NOT NULL CHECK (end_date >= start_date),
     end_date date NOT NULL CHECK (end_date >= start_date),
     status text NOT NULL,
     type text NOT NULL,
-    als_id integer references als(id),
+    als_id integer references inventory.als(id),
     work_int numeric CHECK (work_int >= 0  AND work_int <= 1),
     comment text
 );
@@ -93,18 +99,18 @@ CREATE TABLE wells_status (
 --FORMATIONS
 
 -- Formations Table
-CREATE TABLE formations (
+CREATE TABLE inventory.formations (
     id integer PRIMARY KEY,
     formation text NOT NULL,
     period text NOT NULL,
-    basin_id integer NOT NULL references basins(id)
+    basin_id integer NOT NULL references inventory.basins(id)
 );
 
 -- formations tops
-CREATE TABLE formations_tops (
+CREATE TABLE inventory.formations_tops (
     id bigint PRIMARY KEY,
-    well_id integer NOT NULL references wells(id),
-    formation_id integer NOT NULL references formations(id),
+    well_id integer NOT NULL references inventory.wells(id),
+    formation_id integer NOT NULL references inventory.formations(id),
     md_top numeric NOT NULL,
     md_base numeric,
     tvd_top numeric,
@@ -117,17 +123,17 @@ CREATE TABLE formations_tops (
 );
 
 --Units table
-CREATE TABLE units (
+CREATE TABLE inventory.units (
     id integer PRIMARY KEY,
     unit text NOT NULL,
-    formation_id integer NOT NULL references formations(id)
+    formation_id integer NOT NULL references inventory.formations(id)
 );
 
 -- Units tops
-CREATE TABLE units_tops (
+CREATE TABLE inventory.units_tops (
     id bigint PRIMARY KEY,
-    well_id integer NOT NULL references wells(id),
-    unit_id integer NOT NULL references formations(id),
+    well_id integer NOT NULL references inventory.wells(id),
+    unit_id integer NOT NULL references inventory.formations(id),
     md_top numeric NOT NULL,
     md_base numeric,
     tvd_top numeric,
@@ -140,11 +146,11 @@ CREATE TABLE units_tops (
 );
 
 -- Perforations Table
-CREATE TABLE perforations (
+CREATE TABLE inventory.perforations (
     id bigint PRIMARY KEY,
-    well_id integer NOT NULL references wells(id),
-    formation_id integer references formations(id),
-    unit_id integer references units(id),
+    well_id integer NOT NULL references inventory.wells(id),
+    formation_id integer references inventory.formations(id),
+    unit_id integer references inventory.units(id),
     md_top numeric NOT NULL,
     md_base numeric NOT NULL,
     tvd_top numeric,
@@ -157,19 +163,20 @@ CREATE TABLE perforations (
 );
 
 -- Perforations Status Table
-CREATE TABLE perforations_status (
+CREATE TABLE events.perforations_status (
     id bigint PRIMARY KEY,
-    perf_id bigint NOT NULL references perforations(id),
+    perf_id bigint NOT NULL references inventory.perforations(id),
     start_date date NOT NULL CHECK (end_date >= start_date),
     end_date date NOT NULL CHECK (end_date >= start_date),
     status text,
-    type text
+    type text,
+    comment text
 );
 
 -- Forecast table
-CREATE TABLE forecast (
+CREATE TABLE eventsforecast (
     id bigint PRIMARY KEY,
-    well_id integer NOT NULL references wells(id),
+    well_id integer NOT NULL references inventory.wells(id),
     type text NOT NULL,
     date date NOT NULL,
     bo numeric DEFAULT 0,
@@ -181,29 +188,29 @@ CREATE TABLE forecast (
 --PRODUCCTION AND INJECTION TABLES
 
 --Injection Table
-CREATE TABLE injection (
+CREATE TABLE daily.injection (
     id bigint PRIMARY KEY,
     date date not null,
-    well_id integer not null references wells(id),
+    well_id integer not null references inventory.wells(id),
     bipd numeric check(bipd >=0) default 0,
     thp numeric check(thp>=0),
     hrs numeric check(hrs>=0 and hrs<=24),
-    formation_id integer references formations(id)
+    formation_id integer references inventory.formations(id)
 );
 
 --Production table
-CREATE TABLE production (
+CREATE TABLE daily.production (
     id bigint PRIMARY KEY,
     date date NOT NULL,
-    well_id integer NOT NULL references wells(id),
-    formation_id integer references formations(id),
-    unit_id integer references units(id),
+    well_id integer NOT NULL references inventory.wells(id),
+    formation_id integer references inventory.formations(id),
+    unit_id integer references inventory.units(id),
     bf numeric check(bf>=0) default 0,
     gas numeric check(gas>=0) default 0,
     bsw numeric check(bsw>=0 and bsw<=1),
     bo numeric check(bo>=0) default 0,
     bw numeric check(bw>=0) default 0,
-    als_id integer references als(id),
+    als_id integer references inventory.als(id),
     api numeric check(api>=0),
     choke_size numeric check(choke_size>=0) default 0,
     choke_ref numeric check(choke_size>=0) default 64,
@@ -225,10 +232,10 @@ CREATE TABLE production (
     comments text
 );
 
-CREATE TABLE stops (
+CREATE TABLE daily.stops (
     id bigint PRIMARY KEY,
     date date not null,
-    well_id integer not null references wells(id),
+    well_id integer not null references inventory.wells(id),
     hrs numeric not null check(hrs>=0 and hrs<=24),
     from_time time,
     to_time time,
@@ -237,10 +244,34 @@ CREATE TABLE stops (
 );
 
 
-CREATE TABLE tanks (
-    id bigint PRIMARY KEY,
+CREATE TABLE inventory.tanks (
+    id integer PRIMARY KEY,
+    tank_code varchar(15) not null,
     tank text NOT NULL,
     nominal_capacity numeric,
     real_capacity numeric,
-    station_id integer references stations(id)
-)
+    station_id integer references inventory.stations(id)
+);
+
+CREATE TABLE daily.tanks_balance (
+    id bigint PRIMARY KEY,
+    date date NOT NULL,
+    tank_id integer not null references inventory.tanks(id),
+    estado varchar(3) not null,
+    medida numeric not null check(medida >= 0),
+    bls_gross numeric not null check(bls_gross >= 0),
+    api_obser numeric not null check(api_obser >= 0),
+    t_obser numeric not null,
+    t_tk numeric not null,
+    sw numeric not null check(sw >= 0 and sw <= 100),
+    api_60_f numeric not null check(api_60_f >= 0),
+    fac_temp numeric not null check(fac_temp >= 0),
+    fac_bsw numeric not null check(fac_bsw >= 0),
+    temp_ambiente numeric not null,
+    fac_correc_lamina numeric not null,
+    bls_netos numeric not null check(bls_netos >= 0),
+    recibo numeric not null check(recibo >= 0),
+    consumo numeric not null check(consumo >= 0),
+    transferencia numeric not null check(transferencia >= 0),
+    entrega numeric not null check(entrega >= 0)
+);
