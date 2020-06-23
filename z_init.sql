@@ -60,9 +60,10 @@ CREATE TABLE inventory.wells (
     gle numeric,
     td_md numeric CHECK (td_md >= 0),
     td_tvd numeric CHECK (td_tvd >= 0),
-    classification varchar(2),
-    geom text,
+    classification varchar(3),
+    geometry text,
     parent_id integer references inventory.wells(id),
+    station_id integer references inventory.stations(id),
     point geometry
 );
 
