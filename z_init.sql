@@ -276,3 +276,21 @@ CREATE TABLE daily.tanks_balance (
     transferencia numeric not null check(transferencia >= 0),
     entrega numeric not null check(entrega >= 0)
 );
+
+-- Static pressure table
+CREATE TABLE events.static_pressure (
+    id integer PRIMARY KEY,
+    date date not null,
+    well_id integer references inventory.wells(id),
+    pressure_datum numeric not null,
+    formation_id integer references inventory.formations(id),
+    unit_id integer references inventory.units(id),
+);
+
+-- Surface Pumps Equipment
+CREATE TABLE inventory.surface_pumps (
+    id integer PRIMARY KEY,
+    pump varchar(10) not null,
+    station_id integer not null references stations(id),
+    brand text
+);
