@@ -113,11 +113,11 @@ CREATE TABLE inventory.formations_tops (
     well_id integer NOT NULL references inventory.wells(id),
     formation_id integer NOT NULL references inventory.formations(id),
     md_top numeric NOT NULL,
-    md_base numeric,
+    md_bottom numeric,
     tvd_top numeric,
-    tvd_base numeric,
+    tvd_bottom numeric,
     tvdss_top numeric,
-    tvdss_base numeric,
+    tvdss_bottom numeric,
     northing numeric,
     easting numeric,
     point geometry
@@ -136,11 +136,11 @@ CREATE TABLE inventory.units_tops (
     well_id integer NOT NULL references inventory.wells(id),
     unit_id integer NOT NULL references inventory.formations(id),
     md_top numeric NOT NULL,
-    md_base numeric,
+    md_bottom numeric,
     tvd_top numeric,
-    tvd_base numeric,
+    tvd_bottom numeric,
     tvdss_top numeric,
-    tvdss_base numeric,
+    tvdss_bottom numeric,
     northing numeric,
     easting numeric,
     point geometry
@@ -153,14 +153,17 @@ CREATE TABLE inventory.perforations (
     formation_id integer references inventory.formations(id),
     unit_id integer references inventory.units(id),
     md_top numeric NOT NULL,
-    md_base numeric NOT NULL,
+    md_bottom numeric NOT NULL,
     tvd_top numeric,
-    tvd_base numeric,
+    tvd_bottom numeric,
     tvdss_top numeric,
-    tvdss_base numeric,
+    tvdss_bottom numeric,
     perf_date date,
     spf numeric,
-    comments text
+    comments text,
+    easting numeric,
+    northing numeric,
+    point geometry
 );
 
 -- Perforations Status Table
@@ -175,7 +178,7 @@ CREATE TABLE events.perforations_status (
 );
 
 -- Forecast table
-CREATE TABLE eventsforecast (
+CREATE TABLE events.forecast (
     id bigint PRIMARY KEY,
     well_id integer NOT NULL references inventory.wells(id),
     type text NOT NULL,
@@ -279,18 +282,19 @@ CREATE TABLE daily.tanks_balance (
 
 -- Static pressure table
 CREATE TABLE events.static_pressure (
-    id integer PRIMARY KEY,
+    id bigint PRIMARY KEY,
     date date not null,
-    well_id integer references inventory.wells(id),
+    well_id integer not null references inventory.wells(id),
     pressure_datum numeric not null,
-    formation_id integer references inventory.formations(id),
-    unit_id integer references inventory.units(id),
+    formation_id integer not null references inventory.formations(id),
+    unit_id integer references inventory.units(id)
 );
 
 -- Surface Pumps Equipment
 CREATE TABLE inventory.surface_pumps (
     id integer PRIMARY KEY,
     pump varchar(10) not null,
-    station_id integer not null references stations(id),
+    station_id integer not null references inventory.stations(id),
     brand text
 );
+
