@@ -7,22 +7,43 @@ The repository contains the Dockerfile built on top of `postgis/postgis` image a
 To build the image
 
 ```
-sudo docker build -t scuervo91/database_oil_gas:0.1 .
+sudo docker build -t image_name:tag .
 ```
 ```
-sudo docker -t build database_oil_gas .
+sudo docker build -t database_oil_gas:latest .
 ```
 
 
 ## Pull image from DockerHub
 
+Docker hub automatically builds the image from this repository, being the master branch the `latest` version of the image and the `GitHub Tagged Releases` are built with the same tag.
+
+### latest
+```
+docker pull scuervo91/oilbase:latest
+```
+or
+
+### Tagged
+```
+docker pull scuervo91/oilbase:v0.1
+```
 
 ## Run the image
 
+Postgres Env Variables must be set to access the database
+
+### Env Variables
+POSTGRES_USER: Username to access
+POSTGRES_PASSWORD: Password to acess
+POSTGRES_DB: Database name to create the tables and structures
+
+### Persisting the data in a Volume
 ```
-sudo docker run -v /host/path/to/directory:/var/lib/postgresql/data -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=geodb -p 5432:5432 --name database scuervo91/database_oil_gas 
+sudo docker run --rm -v /host/path/to/directory:/var/lib/postgresql/data -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=geodb -p 5432:5432 --name database scuervo91/oilbase:latest 
 ```
 
-```sudo docker run --rm -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=geodb -p 5432:5432 --name database database_oil_gas
+### Without Persisting the data
 ```
-
+sudo docker run --rm -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=db -p 5432:5432 --rm --name database scuervo91/oilbase:latest 
+```

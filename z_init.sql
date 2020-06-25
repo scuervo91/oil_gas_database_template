@@ -319,7 +319,7 @@ CREATE TABLE daily.separators_parameters (
     id bigint PRIMARY KEY,
     date timestamp not null,
     separator_id integer not null references inventory.separators(id),
-    static_pressure numeric check(suction_pressure >= 0),
+    static_pressure numeric check(static_pressure >= 0),
     diff_pressure numeric,
     tem_gas numeric,
     prod_gas numeric
@@ -330,7 +330,7 @@ CREATE TABLE daily.separators_parameters (
 CREATE TABLE daily.wells_parameters (
     id bigint PRIMARY KEY,
     date timestamp not null,
-    well_id integer not null references wells(id),
+    well_id integer not null references inventory.wells(id),
     thp numeric check(thp >= 0),
     chp numeric check(chp >= 0),
     hp_qinj numeric check(hp_qinj >= 0),
@@ -340,7 +340,7 @@ CREATE TABLE daily.wells_parameters (
     esp_temp numeric check(esp_temp >= 0),
     pcp_rpm numeric check(pcp_rpm >= 0),
     pcp_amp numeric check(pcp_amp >= 0),
-    pcp_torque numeric check(pcp_torque >= 0),
-)
+    pcp_torque numeric check(pcp_torque >= 0)
+);
 
 
