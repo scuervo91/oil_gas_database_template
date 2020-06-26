@@ -127,7 +127,8 @@ CREATE TABLE inventory.formations_tops (
 CREATE TABLE inventory.units (
     id integer PRIMARY KEY,
     unit text NOT NULL,
-    formation_id integer NOT NULL references inventory.formations(id)
+    formation_id integer NOT NULL references inventory.formations(id),
+    field_id integer not null references inventory.fields(id)
 );
 
 -- Units tops
