@@ -135,7 +135,7 @@ CREATE TABLE inventory.units (
 CREATE TABLE inventory.units_tops (
     id bigint PRIMARY KEY,
     well_id integer NOT NULL references inventory.wells(id),
-    unit_id integer NOT NULL references inventory.formations(id),
+    unit_id integer NOT NULL references inventory.units(id),
     md_top numeric NOT NULL,
     md_bottom numeric,
     tvd_top numeric,
