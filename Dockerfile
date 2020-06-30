@@ -1,3 +1,3 @@
 FROM postgis/postgis
 
-COPY z_init.sql /docker-entrypoint-initdb.d/
+COPY . /docker-entrypoint-initdb.d/
