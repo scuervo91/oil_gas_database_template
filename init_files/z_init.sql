@@ -344,4 +344,34 @@ CREATE TABLE daily.wells_parameters (
     pcp_torque numeric check(pcp_torque >= 0)
 );
 
+-- Despachos
 
+CREATE TABLE daily.trucks (
+    tiquete bigint PRIMARY KEY,
+    date date not null,
+    guia text not null,
+    placa_vehiculo varchar(6) not null,
+    placa_trailer varchar(7) not null,
+    nombre_conductor text not null,
+    cedula numeric not null,
+    empresa text not null,
+    origen_id integer not null references list.stations(id),
+    destino_id integer not null references list.stations(id),
+    cliente text not null,
+    bbls_bts numeric not null,
+    bbls_nts numeric not null,
+    sello_1 bigint,
+    sello_2 bigint,
+    sello_3 bigint,
+    sello_4 bigint,
+    sello_5 bigint,
+    sello_6 bigint,
+    sello_7 bigint,
+    presintos text,
+    api_60_f numeric,
+    bsw numeric,
+    temp_f numeric,
+    factor_volumetrico numeric,
+    factor_bsw numeric,
+    sal_lbs_1000_bls numeric
+);
