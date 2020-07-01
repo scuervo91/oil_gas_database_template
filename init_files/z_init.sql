@@ -300,7 +300,7 @@ CREATE TABLE list.surface_pumps (
 );
 
 CREATE TABLE daily.pumps_parameters (
-    id bigint PRIMARY KEY,
+    id serial PRIMARY KEY,
     datetime timestamp not null,
     pump_id integer not null references list.surface_pumps(id),
     freq numeric check(freq >= 0),
@@ -318,7 +318,7 @@ CREATE TABLE list.separators (
 
 
 CREATE TABLE daily.separators_parameters (
-    id bigint PRIMARY KEY,
+    id serial PRIMARY KEY,
     datetime timestamp not null,
     separator_id integer not null references list.separators(id),
     static_pressure numeric check(static_pressure >= 0),
@@ -330,7 +330,7 @@ CREATE TABLE daily.separators_parameters (
 
 -- Wells Parameters
 CREATE TABLE daily.wells_parameters (
-    id bigint PRIMARY KEY,
+    id serial PRIMARY KEY,
     datetime timestamp not null,
     well_id integer not null references list.wells(id),
     thp numeric check(thp >= 0),
@@ -376,4 +376,13 @@ CREATE TABLE daily.trucks (
     factor_volumetrico numeric,
     factor_bsw numeric,
     sal_lbs_1000_bls numeric
+);
+
+CREATE TABLE daily.gas_plant (
+    id serial PRIMARY KEY,
+    datetime timestamp not null,
+    pressure_manifold numeric check(pressure_manifold >= 0),
+    pressure_plant numeric check(pressure_plant >= 0),
+    gas_flow numeric check(gas_flow >= 0),
+    pressure_tgi numeric check(pressure_tgi >= 0)
 );
