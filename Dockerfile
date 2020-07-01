@@ -1,3 +1,3 @@
 FROM postgis/postgis
 
-COPY . /docker-entrypoint-initdb.d/
+COPY ./init_files/ /docker-entrypoint-initdb.d/
