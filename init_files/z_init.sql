@@ -303,7 +303,7 @@ CREATE TABLE daily.pumps_parameters (
     id bigint PRIMARY KEY,
     datetime timestamp not null,
     pump_id integer not null references list.surface_pumps(id),
-    freq numeric numeric check(freq >= 0),
+    freq numeric check(freq >= 0),
     suction_pressure numeric check(suction_pressure >= 0),
     discharge_pressure numeric check(discharge_pressure >= 0)
 );
@@ -319,7 +319,7 @@ CREATE TABLE list.separators (
 
 CREATE TABLE daily.separators_parameters (
     id bigint PRIMARY KEY,
-    date timestamp not null,
+    datetime timestamp not null,
     separator_id integer not null references list.separators(id),
     static_pressure numeric check(static_pressure >= 0),
     diff_pressure numeric,
@@ -331,7 +331,7 @@ CREATE TABLE daily.separators_parameters (
 -- Wells Parameters
 CREATE TABLE daily.wells_parameters (
     id bigint PRIMARY KEY,
-    date timestamp not null,
+    datetime timestamp not null,
     well_id integer not null references list.wells(id),
     thp numeric check(thp >= 0),
     chp numeric check(chp >= 0),
