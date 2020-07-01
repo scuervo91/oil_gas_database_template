@@ -301,10 +301,11 @@ CREATE TABLE list.surface_pumps (
 
 CREATE TABLE daily.pumps_parameters (
     id bigint PRIMARY KEY,
-    date timestamp not null,
+    datetime timestamp not null,
     pump_id integer not null references list.surface_pumps(id),
+    freq numeric numeric check(freq >= 0),
     suction_pressure numeric check(suction_pressure >= 0),
-    discharge_pressure numeric check(suction_pressure >= 0)
+    discharge_pressure numeric check(discharge_pressure >= 0)
 );
 
 -- Separators Equipment
@@ -341,7 +342,8 @@ CREATE TABLE daily.wells_parameters (
     esp_temp numeric check(esp_temp >= 0),
     pcp_rpm numeric check(pcp_rpm >= 0),
     pcp_amp numeric check(pcp_amp >= 0),
-    pcp_torque numeric check(pcp_torque >= 0)
+    pcp_torque numeric check(pcp_torque >= 0),
+    gas_flow numeric check(gas_flow >=0)
 );
 
 -- Despachos
