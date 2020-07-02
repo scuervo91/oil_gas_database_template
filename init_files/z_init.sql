@@ -217,8 +217,8 @@ CREATE TABLE daily.production (
     bw numeric check(bw>=0) default 0,
     als_id integer references list.als(id),
     api numeric check(api>=0),
-    choke_size numeric check(choke_size>=0) default 0,
-    choke_ref numeric check(choke_size>=0) default 64,
+    choke_size numeric check(choke_size>=0),
+    choke_ref numeric check(choke_size>=0),
     thp numeric check(thp>=0),
     chp numeric check(chp>=0),
     tht numeric,
@@ -343,7 +343,9 @@ CREATE TABLE daily.wells_parameters (
     pcp_rpm numeric check(pcp_rpm >= 0),
     pcp_amp numeric check(pcp_amp >= 0),
     pcp_torque numeric check(pcp_torque >= 0),
-    gas_flow numeric check(gas_flow >=0)
+    gas_flow numeric check(gas_flow >=0),
+    choke_size numeric check(choke_size>=0),
+    choke_ref numeric check(choke_size>=0)
 );
 
 -- Despachos
