@@ -262,7 +262,7 @@ CREATE TABLE daily.tanks_balance (
     id bigint PRIMARY KEY,
     date date NOT NULL,
     tank_id integer not null references list.tanks(id),
-    estado varchar(3) not null,
+    estado varchar(20) not null,
     medida numeric not null check(medida >= 0),
     bls_gross numeric not null check(bls_gross >= 0),
     api_obser numeric not null check(api_obser >= 0),
