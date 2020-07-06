@@ -353,11 +353,11 @@ CREATE TABLE daily.wells_parameters (
 CREATE TABLE daily.trucks (
     tiquete bigint PRIMARY KEY,
     date date not null,
-    guia text not null,
+    guia varchar(15) not null,
     placa_vehiculo varchar(6) not null,
     placa_trailer varchar(7) not null,
     nombre_conductor text not null,
-    cedula numeric not null,
+    cedula varchar(15) not null,
     empresa text not null,
     origen_id integer not null references list.stations(id),
     destino_id integer not null references list.stations(id),
