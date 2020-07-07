@@ -88,7 +88,7 @@ CREATE TABLE list.surveys (
 CREATE TABLE events.wells_status (
     id bigint PRIMARY KEY,
     well_id integer NOT NULL references list.wells(id),
-    start_date date NOT NULL CHECK (end_date >= start_date),
+    start_date date NOT NULL,
     end_date date NOT NULL CHECK (end_date >= start_date),
     status varchar(20) NOT NULL,
     type varchar(20) NOT NULL,
@@ -171,10 +171,10 @@ CREATE TABLE list.perforations (
 CREATE TABLE events.perforations_status (
     id bigint PRIMARY KEY,
     perf_id bigint NOT NULL references list.perforations(id),
-    start_date date NOT NULL CHECK (end_date >= start_date),
+    start_date date NOT NULL,
     end_date date NOT NULL CHECK (end_date >= start_date),
-    status text,
-    type text,
+    status varchar(20),
+    type varchar(20),
     comment text
 );
 
