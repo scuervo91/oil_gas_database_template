@@ -377,7 +377,8 @@ CREATE TABLE daily.trucks (
     temp_f numeric,
     factor_volumetrico numeric,
     factor_bsw numeric,
-    sal_lbs_1000_bls numeric
+    sal_lbs_1000_bls numeric,
+    concepto varchar(10)
 );
 
 CREATE TABLE daily.gas_plant (
