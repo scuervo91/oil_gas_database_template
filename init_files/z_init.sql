@@ -90,8 +90,8 @@ CREATE TABLE events.wells_status (
     well_id integer NOT NULL references list.wells(id),
     start_date date NOT NULL CHECK (end_date >= start_date),
     end_date date NOT NULL CHECK (end_date >= start_date),
-    status text NOT NULL,
-    type text NOT NULL,
+    status varchar(20) NOT NULL,
+    type varchar(20) NOT NULL,
     als_id integer references list.als(id),
     work_int numeric CHECK (work_int >= 0  AND work_int <= 1),
     comment text
