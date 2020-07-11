@@ -35,6 +35,7 @@ CREATE TABLE list.fields (
 CREATE TABLE list.stations (
     id integer PRIMARY KEY,
     station text NOT NULL,
+    field_id integer references list.fields(id),
     point geometry
 );
 
