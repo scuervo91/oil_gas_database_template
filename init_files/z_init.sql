@@ -171,7 +171,7 @@ CREATE TABLE list.perforations (
 -- Perforations Status Table
 CREATE TABLE events.perforations_status (
     id bigint PRIMARY KEY,
-    perf_id bigint NOT NULL references list.perforations(id),
+    perforation_id bigint NOT NULL references list.perforations(id),
     start_date date NOT NULL,
     end_date date NOT NULL CHECK (end_date >= start_date),
     status varchar(20),
