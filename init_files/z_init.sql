@@ -238,6 +238,43 @@ CREATE TABLE daily.production (
     comments text
 );
 
+CREATE TABLE daily.test (
+    id bigint PRIMARY KEY,
+    date date NOT NULL,
+    from_time time NOT NULL,
+    to_time time NOT NULL,
+    well_id integer NOT NULL references list.wells(id),
+    bf numeric check(bf>=0) default 0,
+    gas numeric check(gas>=0) default 0,
+    bsw numeric check(bsw>=0 and bsw<=1),
+    bo numeric check(bo>=0) default 0,
+    bw numeric check(bw>=0) default 0,
+    bfpd numeric check(bf>=0) default 0,
+    gas_kscfd numeric check(gas>=0) default 0,
+    bopd numeric check(bo>=0) default 0,
+    bwpd numeric check(bw>=0) default 0,
+    als_id integer references list.als(id),
+    api numeric check(api>=0),
+    choke_size numeric check(choke_size>=0),
+    choke_ref numeric check(choke_size>=0),
+    thp numeric check(thp>=0),
+    chp numeric check(chp>=0),
+    tht numeric,
+    esp_freq numeric check(esp_freq>=0),
+    hrs numeric check(hrs>=0 and hrs<=24),
+    esp_pip numeric check(esp_pip >= 0),
+    esp_amp numeric check(esp_amp >= 0),
+    esp_temp numeric,
+    hp_pinj numeric check(hp_pinj >= 0),
+    hp_qinj numeric check(hp_qinj >= 0),
+    bp_strokes numeric check(bp_strokes >= 0),
+    bp_pip numeric check(bp_pip >= 0),
+    pcp_rpm numeric check(pcp_rpm >= 0),
+    pcp_amp numeric check(pcp_amp >= 0),
+    pcp_torque numeric check(pcp_torque >= 0),
+    comments text
+);
+
 CREATE TABLE daily.stops (
     id bigint PRIMARY KEY,
     date date not null,
