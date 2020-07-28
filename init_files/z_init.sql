@@ -276,7 +276,7 @@ CREATE TABLE daily.test (
 );
 
 CREATE TABLE daily.stops (
-    id bigint PRIMARY KEY,
+    id serial PRIMARY KEY,
     date date not null,
     well_id integer not null references list.wells(id),
     hrs numeric not null check(hrs>=0 and hrs<=24),
