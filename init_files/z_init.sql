@@ -393,7 +393,7 @@ CREATE TABLE daily.trucks (
     date date not null,
     guia varchar(15) not null,
     placa_vehiculo varchar(6) not null,
-    placa_trailer varchar(7) not null,
+    placa_trailer varchar(7),
     nombre_conductor text not null,
     cedula varchar(15) not null,
     empresa text not null,
