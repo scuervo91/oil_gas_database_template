@@ -264,6 +264,7 @@ CREATE TABLE daily.test (
     hrs numeric check(hrs>=0 and hrs<=24),
     esp_pip numeric check(esp_pip >= 0),
     esp_amp numeric check(esp_amp >= 0),
+    esp_volt numeric check(esp_volt >= 0),
     esp_temp numeric,
     hp_pinj numeric check(hp_pinj >= 0),
     hp_qinj numeric check(hp_qinj >= 0),
