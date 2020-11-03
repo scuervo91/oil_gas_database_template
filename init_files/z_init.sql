@@ -258,6 +258,7 @@ CREATE TABLE daily.test (
     choke_size numeric check(choke_size>=0),
     choke_ref numeric check(choke_size>=0),
     thp numeric check(thp>=0),
+    line_pressure numeric check(line_pressure>=0),
     gas_inj numeric check(gas_inj>=0),
     chp numeric check(chp>=0),
     tht numeric,
