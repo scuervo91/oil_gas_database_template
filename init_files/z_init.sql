@@ -183,7 +183,7 @@ CREATE TABLE events.perforations_status (
 CREATE TABLE events.forecast (
     id bigint PRIMARY KEY,
     well_id integer NOT NULL references list.wells(id),
-    type text NOT NULL,
+    escenario text NOT NULL,
     date date NOT NULL,
     bo numeric DEFAULT 0,
     bw numeric DEFAULT 0,
