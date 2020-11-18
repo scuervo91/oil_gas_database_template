@@ -68,6 +68,18 @@ CREATE TABLE list.wells (
     point geometry
 );
 
+CREATE TABLE list.groups (
+    id bigint PRIMARY KEY,
+    name text not null,
+);
+
+CREATE TABLE list.group_wells (
+    id bigint PRIMARY KEY,
+    well_id integer references list.wells(id),
+    group_id bigint references list.group_wells(id)
+)
+
+
 --Surveys Table
 CREATE TABLE list.surveys (
     id bigint PRIMARY KEY,
@@ -188,7 +200,10 @@ CREATE TABLE events.forecast (
     bo numeric DEFAULT 0,
     bw numeric DEFAULT 0,
     gas numeric DEFAULT 0,
-    probability numeric check(probability>=0 and probability<=1) default 0.5 
+    probability numeric check(probability>=0 and probability<=1) default 0.5,
+    reserves VARCHAR(4) NOT NULL check(reserves in ("PDP","PDNP","PUD")),
+    formation_id integer references list.formations(id),
+    unit_id bigint references list.units(id)
 );
 
 --PRODUCCTION AND INJECTION TABLES
